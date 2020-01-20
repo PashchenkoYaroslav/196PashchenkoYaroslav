@@ -12,6 +12,14 @@ namespace ConsoleApp1
         const double singleTestValue = -13.53;
         const int singleTestOneAns = -14;
         const int singleTestTwoAns = 2;
+        /// <summary>
+        /// Метод тестирует делегат, сравнивая выдаванное им значение
+        /// с заданным правильным ответом.
+        /// </summary>
+        /// <param name="caster"></param>
+        /// <param name="delegatename"></param>
+        /// <param name="testAns"></param>
+        /// <param name="testValue"></param>
         static void SingleTest(Cast caster, string delegatename, int testAns, double testValue)
         {
             Console.ResetColor();
@@ -27,6 +35,14 @@ namespace ConsoleApp1
                 Console.WriteLine("Первый тест провален");
             }
         }
+        /// <summary>
+        /// Метод тестирует делегат, сравнивая выдаваемые им значения 
+        /// с заданными правильными ответами.
+        /// </summary>
+        /// <param name="caster"></param>
+        /// <param name="delegatename"></param>
+        /// <param name="testAns"></param>
+        /// <param name="testValue"></param>
         static void MultiplyTest(Cast caster, string delegatename, int[] testAns, double[] testValue)
         {
             bool testResult = true;
@@ -48,8 +64,27 @@ namespace ConsoleApp1
                 Console.WriteLine("Множественный тест провален");
             }
         }
+        /// <summary>
+        /// Метод создает многоадресный делегат, 
+        /// связывает его с 2 методами
+        /// и вызывает его от заданного числа.
+        /// </summary>
+        /// <param name="firstCast"></param>
+        /// <param name="secondCast"></param>
+        /// <param name="x"></param>
+        static void ThirdCast(Cast firstCast, Cast secondCast, double x)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Вызовем третий делегат");
+            Console.ResetColor();
+            Cast thirdCast = firstCast;
+            thirdCast += secondCast;
+            Console.WriteLine(thirdCast(x));
+        }
+
         static void Main(string[] args)
         {
+            // Можно было использовать модульное тестирование.
             do
             {
                 double[] multipleTestValues = { 24.4, -1111.1, 1293.0, 340, -11.6, 33.5, 0 };
@@ -74,16 +109,15 @@ namespace ConsoleApp1
                     }
                     return counter;
                 };
-
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Начинаем тестирование!");
-                // Можно было использовать модульное тестирование.
                 SingleTest(firstCast, "первого", singleTestOneAns, singleTestValue);
                 SingleTest(secondCast, "второго", singleTestTwoAns, singleTestValue);
                 MultiplyTest(firstCast, "первого", multiplyTestOneAns, multipleTestValues);
                 MultiplyTest(secondCast, "первого", multiplyTestTwoAns, multipleTestValues);
-                Console.ResetColor();
-                Console.WriteLine("Нажмите Escape чтобы выйти" + Environment.NewLine + "Нажмите на Enter чтобы продолжить");
+                ThirdCast(firstCast, secondCast, 23.7);
+                Console.WriteLine("Нажмите Escape чтобы выйти" + Environment.NewLine 
+                    + "Нажмите на Enter чтобы продолжить");
             }
             while (Console.ReadKey().Key != ConsoleKey.Escape);
         }
